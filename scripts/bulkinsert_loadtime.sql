@@ -1,13 +1,15 @@
 /*
--->CLEARING DATA FROM THE TABLE
--->INSERTING LARGE DATA INTO THE ALREADY CREATED DATA IN A SINGLE TIME
--->CREATING A STORED PROCEDURE FOR IT  
--->ALSO KNOWING THE LOAD DURATION TIME FOR IT
+-----> CLEARING DATA FROM THE TABLE
+-----> INSERTING LARGE DATA INTO THE ALREADY CREATED DATA IN A SINGLE TIME
+-----> CREATING A STORED PROCEDURE FOR IT 
+-----> CALCULATING LOAD DURATION
 */
 
 CREATE OR ALTER PROCEDURE bronze.load_bronze AS
 BEGIN
-	declare @starttime datetime, @endtime datetime;
+	declare @starttime datetime, @endtime datetime, @overallstarttime datetime, @overallendtime datetime;
+
+	Set @overallstarttime = GETDATE();
 
 	PRINT '==========================================';
 	PRINT 'LOADING BRONZE LAYER TABLES';
@@ -127,6 +129,10 @@ BEGIN
 	);
 	SET @endtime = GETDATE();
 	print 'load duration:' + cast(datediff(second, @starttime, @endtime) as nvarchar) + 'seconds';
-	print '<<<<<<<<<<<<<< THE END <<<<<<<<<<<<<<<<<<<<<<<<<<<<<';
+	print '<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<';
+
+	Set @overallendtime = GETDATE();
+	print 'overall time duration:'  + CAST(DATEDIFF(SECOND, @overallstarttime, @overallendtime) as nvarchar) + 'seconds';
+	print '<<<<<<<<<<<<<<<<<<<<<<<<<<<<< THE END <<<<<<<<<<<<<<<<<<<<<<<<<<<';
 
 END
