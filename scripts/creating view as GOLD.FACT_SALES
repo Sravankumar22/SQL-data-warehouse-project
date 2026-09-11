@@ -1,0 +1,16 @@
+CREATE VIEW GOLD.FACT_SALES AS
+select
+SD.sls_ord_num AS ORDER_NUMBER,
+PD.PRODUCT_KEY,
+DC.CUSTOMER_KEY,
+SD.sls_order_dt AS ORDER_DATE,
+SD.sls_ship_dt AS SHIPPING_DATE,
+SD.sls_due_dt AS DUE_DATE,
+SD.sls_sales AS SALES_AMOUNT,
+SD.sls_quantity AS QUANTITY,
+SD.sls_price AS PRICE
+from Silver.crm_sales_details as SD
+LEFT JOIN GOLD.DIM_PRODUCT AS PD
+ON SD.sls_prd_key = PD.PRODUCT_NUMBER
+LEFT JOIN GOLD.DIM_CUSTOMER AS DC
+ON SD.sls_cust_id = DC.CUSTOMER_ID
